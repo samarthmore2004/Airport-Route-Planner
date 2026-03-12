@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>SkyRoute</title>
+
+<link rel="icon" href="https://cdn-icons-png.flaticon.com/512/723/723955.png">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+    font-family:'Poppins',sans-serif;
+    overflow-x:hidden;
+    background:linear-gradient(135deg,#4facfe,#00f2fe);
+    transition:0.6s;
+}
+body.dark{
+    background:linear-gradient(135deg,#141E30,#243B55);
+}
+
+/* NAVBAR */
+.navbar{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    padding:15px 40px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:rgba(0,0,0,0.2);
+    backdrop-filter:blur(10px);
+    z-index:1000;
+}
+.logo{
+    font-size:22px;
+    font-weight:700;
+    color:white;
+}
+
+/* SMALL TOGGLE */
+.toggle{
+    width:45px;
+    height:22px;
+    background:white;
+    border-radius:20px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    padding:3px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.3);
+}
+.toggle-ball{
+    width:16px;
+    height:16px;
+    background:#ff9800;
+    border-radius:50%;
+    transition:0.4s;
+}
+body.dark .toggle{
+    background:#333;
+}
+body.dark .toggle-ball{
+    transform:translateX(22px);
+    background:#00f2fe;
+}
+
+/* SKY OBJECT */
+.sky-object{
+    position:absolute;
+    top:60px;
+    right:120px;
+    width:130px;
+    height:130px;
+    border-radius:50%;
+    background:radial-gradient(circle,#fff176,#ff9800);
+    box-shadow:0 0 120px rgba(255,193,7,0.6);
+    transition:all 0.6s ease;
+    z-index:1;
+    overflow:hidden;
+}
+.sky-object::after{
+    content:"";
+    position:absolute;
+    top:0;
+    left:130px;
+    width:130px;
+    height:130px;
+    background:#141E30;
+    border-radius:50%;
+    transition:all 0.6s ease;
+}
+body.dark .sky-object{
+    background:#f5f5f5;
+    box-shadow:0 0 60px rgba(255,255,255,0.4);
+}
+body.dark .sky-object::after{
+    left:40px;
+}
+
+/* CLOUDS */
+.cloud{
+    position:absolute;
+    width:240px;
+    height:120px;
+    background:white;
+    border-radius:60px;
+    opacity:0.85;
+    animation: moveCloud linear infinite;
+    z-index:1;
+}
+.cloud:before,.cloud:after{
+    content:"";
+    position:absolute;
+    background:white;
+    border-radius:50%;
+}
+.cloud:before{width:150px;height:150px;top:-75px;left:30px;}
+.cloud:after{width:170px;height:170px;top:-85px;right:30px;}
+
+@keyframes moveCloud{
+    0%{ transform:translateX(-300px); }
+    100%{ transform:translateX(110vw); }
+}
+
+/* STARS */
+.stars{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    opacity:0;
+    transition:opacity 1s ease;
+    z-index:0;
+}
+body.dark .stars{
+    opacity:1;
+}
+.stars::before,
+.stars::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+    radial-gradient(2px 2px at 10% 20%, white, transparent),
+    radial-gradient(2px 2px at 30% 80%, white, transparent),
+    radial-gradient(1.5px 1.5px at 50% 50%, white, transparent),
+    radial-gradient(2px 2px at 70% 30%, white, transparent);
+    animation: twinkle 4s infinite alternate;
+}
+@keyframes twinkle{
+    from{opacity:0.4;}
+    to{opacity:1;}
+}
+
+/* PLANE */
+.plane{
+    position:absolute;
+    bottom:-150px;
+    left:-200px;
+    font-size:140px;
+    animation: flyPlane 10s linear infinite;
+    z-index:1;
+}
+@keyframes flyPlane{
+    0%{ left:-200px; bottom:-150px; transform:rotate(15deg);}
+    100%{ left:110%; bottom:110%; transform:rotate(10deg);}
+}
+
+/* HERO */
+.hero{
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    color:white;
+    position:relative;
+    z-index:2;
+}
+.hero h1{
+    font-size:70px;
+    font-weight:800;
+}
+.hero p{
+    margin-top:20px;
+    font-size:22px;
+}
+.hero a{
+    margin-top:35px;
+    padding:18px 60px;
+    background:linear-gradient(45deg,#141E30,#243B55);
+    color:white;
+    border-radius:50px;
+    text-decoration:none;
+    font-weight:600;
+    transition:0.4s;
+}
+.hero a:hover{
+    transform:scale(1.08);
+}
+
+/* SECTION */
+.section{
+    padding:100px 10%;
+    background:white;
+    text-align:center;
+    transition:0.6s;
+}
+body.dark .section{
+    background:#1b263b;
+    color:white;
+}
+
+/* CARDS */
+.cards{
+    display:flex;
+    justify-content:center;
+    gap:40px;
+    flex-wrap:wrap;
+}
+.card{
+    width:300px;
+    padding:40px;
+    border-radius:20px;
+    background:linear-gradient(135deg,#f5f7fa,#c3cfe2);
+    transition:0.4s;
+    box-shadow:0 15px 35px rgba(0,0,0,0.1);
+}
+body.dark .card{
+    background:#243B55;
+}
+.card:hover{
+    transform:translateY(-15px);
+}
+
+/* STATS */
+.stats{
+    padding:80px 10%;
+    background:linear-gradient(135deg,#141E30,#243B55);
+    color:white;
+    display:flex;
+    justify-content:center;
+    gap:100px;
+    text-align:center;
+}
+.stat h3{
+    font-size:48px;
+}
+
+/* FOOTER */
+.footer{
+    padding:20px;
+    text-align:center;
+    background:#0f2027;
+    color:white;
+    transition:0.5s;
+}
+body.dark .footer{
+    background:#020617;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="logo">✈️ SkyRoute</div>
+    <div class="toggle">
+        <div class="toggle-ball"></div>
+    </div>
+</div>
+
+<div class="sky-object"></div>
+<div class="stars"></div>
+
+<div class="cloud" style="top:120px; animation-duration:35s;"></div>
+<div class="cloud" style="top:350px; animation-duration:45s;"></div>
+
+<div class="plane">✈️</div>
+
+<div class="hero">
+    <h1>SKY ROUTE</h1>
+    <p>Premium Air Route Discovery Platform Across India</p>
+    <a href="/planner">Start Planning ✈️</a>
+</div>
+
+<div class="section">
+    <h2>Why Choose SkyRoute?</h2>
+    <br><br>
+    <div class="cards">
+        <div class="card">
+            <div style="font-size:50px;">✈️</div>
+            <h3>Smart Route Engine</h3>
+            <p>Optimized shortest air routes powered by intelligent algorithms.</p>
+        </div>
+        <div class="card">
+            <div style="font-size:50px;">🗺️</div>
+            <h3>Interactive Maps</h3>
+            <p>Real-time visualization of your flight journey across cities.</p>
+        </div>
+        <div class="card">
+            <div style="font-size:50px;">⚡</div>
+            <h3>Instant Results</h3>
+            <p>Fast route calculations with beautiful presentation.</p>
+        </div>
+    </div>
+</div>
+
+<div class="stats">
+    <div class="stat">
+        <h3>15+</h3>
+        <p>Airports Covered</p>
+    </div>
+    <div class="stat">
+        <h3>1000+</h3>
+        <p>Routes Calculated</p>
+    </div>
+    <div class="stat">
+        <h3>99%</h3>
+        <p>Accuracy</p>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+    © 2026 SkyRoute • Intelligent Flight Planner
+</div>
+
+<script>
+const toggle = document.querySelector(".toggle");
+toggle.addEventListener("click", function(){
+    document.body.classList.toggle("dark");
+});
+</script>
+
+</body>
+</html>
