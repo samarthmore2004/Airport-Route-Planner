@@ -1,5 +1,5 @@
 {
-  "name": "planner-2",
+  "name": "airport-route-planner",
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
